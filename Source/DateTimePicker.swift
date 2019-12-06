@@ -750,9 +750,11 @@ extension DateTimePicker: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var selectedRow = indexPath.row
+        guard var selectedRow = indexPath.row as? Int else {return}
         var shouldAnimate = true
-        
+        guard tableView == hourTableView, is12HourFormat, selectedRow < 24 * 3 else {return}
+        guard tableView == hourTableView, !is12HourFormat, selectedRow < 12 * 3 else {return}
+        guard tableView == minuteTableView, selectedRow < 60 * 3 else {return}
         // adjust selected row number for inifinite scrolling
         if selectedRow != adjustedRowForInfiniteScrolling(tableView: tableView, selectedRow: selectedRow) {
             selectedRow = adjustedRowForInfiniteScrolling(tableView: tableView, selectedRow: selectedRow)
