@@ -918,7 +918,9 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
                     selectedRow = 1
                 }
             }
-            
+            guard tableView == hourTableView, is12HourFormat, selectedRow < 24 * 3 else {return}
+            guard tableView == hourTableView, !is12HourFormat, selectedRow < 12 * 3 else {return}
+            guard tableView == minuteTableView, selectedRow < 60 * 3 else {return}
             tableView.selectRow(at: IndexPath(row: selectedRow, section: 0), animated: false, scrollPosition: .middle)
             if tableView == hourTableView {
                 if is12HourFormat {
