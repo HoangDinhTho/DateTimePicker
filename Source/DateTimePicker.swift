@@ -750,11 +750,17 @@ extension DateTimePicker: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard var selectedRow = indexPath.row as? Int else {return}
+        var selectedRow = indexPath.row
         var shouldAnimate = true
-        guard tableView == hourTableView, is12HourFormat, selectedRow < 24 * 3 else {return}
-        guard tableView == hourTableView, !is12HourFormat, selectedRow < 12 * 3 else {return}
-        guard tableView == minuteTableView, selectedRow < 60 * 3 else {return}
+        if tableView == hourTableView, is12HourFormat, selectedRow > 12 * 3 - 1 {
+            selectedRow = selectedRow - 12
+        }
+        else if tableView == hourTableView, !is12HourFormat, selectedRow > 24 * 3 - 1 {
+            selectedRow = selectedRow - 24
+        }
+        else if tableView == minuteTableView, selectedRow > 60 * 3 - 1 {
+            selectedRow = selectedRow - 60
+        }
         // adjust selected row number for inifinite scrolling
         if selectedRow != adjustedRowForInfiniteScrolling(tableView: tableView, selectedRow: selectedRow) {
             selectedRow = adjustedRowForInfiniteScrolling(tableView: tableView, selectedRow: selectedRow)
@@ -918,9 +924,15 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
                     selectedRow = 1
                 }
             }
-            guard tableView == hourTableView, is12HourFormat, selectedRow < 24 * 3 else {return}
-            guard tableView == hourTableView, !is12HourFormat, selectedRow < 12 * 3 else {return}
-            guard tableView == minuteTableView, selectedRow < 60 * 3 else {return}
+            if tableView == hourTableView, is12HourFormat, selectedRow > 12 * 3 - 1 {
+                selectedRow = selectedRow - 12
+            }
+            else if tableView == hourTableView, !is12HourFormat, selectedRow > 24 * 3 - 1 {
+                selectedRow = selectedRow - 24
+            }
+            else if tableView == minuteTableView, selectedRow > 60 * 3 - 1 {
+                selectedRow = selectedRow - 60
+            }
             tableView.selectRow(at: IndexPath(row: selectedRow, section: 0), animated: false, scrollPosition: .middle)
             if tableView == hourTableView {
                 if is12HourFormat {
