@@ -793,7 +793,7 @@ extension DateTimePicker: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var selectedRow = indexPath.row
+        guard var selectedRow = indexPath.row as? Int else {return}
         var shouldAnimate = true
         
         //check out-of-bounds row
