@@ -795,6 +795,7 @@ extension DateTimePicker: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var selectedRow = indexPath.row
         var shouldAnimate = true
+        //checked out rating
         if tableView == hourTableView, is12HourFormat, selectedRow > 12 * 3 - 1 {
             selectedRow = selectedRow - 12
         }
@@ -978,6 +979,7 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
                     selectedRow = 1
                 }
             }
+            //checked out rating
             if tableView == hourTableView, is12HourFormat, selectedRow > 12 * 3 - 1 {
                 selectedRow = selectedRow - 12
             }
