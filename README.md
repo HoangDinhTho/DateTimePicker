@@ -14,6 +14,7 @@ A nicer iOS UI component for picking date and time.
 - (v1.3) Constraint-based UI
 - (v2.0) Now you can create picker view as a separate view!
 - (v2.1.0) Carthage is now supported (a bit late - sorry)
+- (v2.3.0) Options to select custom font and colors
 
 ## To-dos (HELP NEEDED! 🎯)
 
@@ -102,6 +103,7 @@ There are many options to customize picker for your own desire:
 - `darkColor`: custom dark color, default to grey.
 - `doneBackgroundColor`: custom DONE button color, default to darkColor.
 - `daysBackgroundColor`: custom background color for date cells.
+- `customFontSetting`: custom font settings for all labels in the component.
 
 
 ## Contributing
