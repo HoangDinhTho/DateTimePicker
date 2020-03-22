@@ -18,30 +18,17 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if includeMonth {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dateCell", for: indexPath) as! FullDateCollectionViewCell
-            let date = dates[indexPath.item]
-            let style = FullDateCollectionViewCell.Style(highlightColor: highlightColor,
-                                                         normalColor: normalColor,
-                                                         darkColor: darkColor,
-                                                         dayLabelFont: customFontSetting.dateCellDayMonthLabelFont,
-                                                         numberLabelFont: customFontSetting.dateCellNumberLabelFont,
-                                                         monthLabelFont: customFontSetting.dateCellDayMonthLabelFont)
-            cell.populateItem(date: date, style: style, locale: locale)
-
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dateCell", for: indexPath) as! DateCollectionViewCell
-            let date = dates[indexPath.item]
-            let style = DateCollectionViewCell.Style(highlightColor: highlightColor,
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dateCell", for: indexPath) as! FullDateCollectionViewCell
+        let date = dates[indexPath.item]
+        let style = FullDateCollectionViewCell.Style(highlightColor: highlightColor,
                                                      normalColor: normalColor,
                                                      darkColor: darkColor,
                                                      dayLabelFont: customFontSetting.dateCellDayMonthLabelFont,
-                                                     numberLabelFont: customFontSetting.dateCellNumberLabelFont)
-            cell.populateItem(date: date, style: style, locale: locale)
+                                                     numberLabelFont: customFontSetting.dateCellNumberLabelFont,
+                                                     monthLabelFont: customFontSetting.dateCellDayMonthLabelFont)
+        cell.populateItem(date: date, style: style, locale: locale, includesMonth: includesMonth)
 
-            return cell
-        }
+        return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -123,7 +110,8 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
             } else {
                 firstVisibleRow = (tableView.indexPath(for: firstVisibleCell)?.row ?? 0)
             }
-            if tableView == minuteTableView && timeInterval != .default {
+            if tableView == minuteTableView,
+                timeInterval != .default {
                 selectedRow = min(max(firstVisibleRow, 0), self.tableView(tableView, numberOfRowsInSection: 0)-1)
             } else {
                 selectedRow = firstVisibleRow + 1
@@ -142,6 +130,7 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
         }
         
         tableView.selectRow(at: IndexPath(row: selectedRow, section: 0), animated: false, scrollPosition: scrollPosition)
+        
         if tableView == hourTableView {
             if is12HourFormat {
                 components.hour = selectedRow < 12 ? selectedRow + 1 : (selectedRow - 12)%12 + 1
@@ -162,6 +151,8 @@ extension DateTimePicker: UICollectionViewDataSource, UICollectionViewDelegate {
             } else {
                 components.minute = selectedRow * timeInterval.rawValue
             }
+        } else if tableView == secondTableView {
+            components.second = selectedRow < 60 ? selectedRow : (selectedRow - 60)%60
         } else if tableView == amPmTableView {
             if let hour = components.hour,
                 selectedRow == 0 && hour >= 12 {

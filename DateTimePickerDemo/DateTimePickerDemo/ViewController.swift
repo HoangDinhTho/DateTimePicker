@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DateTimePicker
 
 class ViewController: UIViewController, DateTimePickerDelegate {
     
@@ -18,30 +19,31 @@ class ViewController: UIViewController, DateTimePickerDelegate {
         // customize your picker
 //        picker.timeInterval = DateTimePicker.MinuteInterval.thirty
 //        picker.locale = Locale(identifier: "en_GB")
-//
+
 //        picker.todayButtonTitle = "Today"
 //        picker.is12HourFormat = true
-//        picker.dateFormat = "hh:mm aa dd/MM/YYYY"
-//        picker.isTimePickerOnly = true
-        picker.includeMonth = true // if true the month shows at bottom of date cell
+        picker.dateFormat = "hh:mm:ss aa dd/MM/YYYY"
+//        picker.isDatePickerOnly = true
+        picker.includesMonth = true
+        picker.includesSecond = true
         picker.highlightColor = UIColor(red: 255.0/255.0, green: 138.0/255.0, blue: 138.0/255.0, alpha: 1)
         picker.doneButtonTitle = "!! DONE DONE !!"
         picker.doneBackgroundColor = UIColor(red: 255.0/255.0, green: 138.0/255.0, blue: 138.0/255.0, alpha: 1)
         picker.customFontSetting = DateTimePicker.CustomFontSetting(selectedDateLabelFont: .boldSystemFont(ofSize: 20))
-        if #available(iOS 13.0, *) {
-            picker.normalColor = UIColor.secondarySystemGroupedBackground
-            picker.darkColor = UIColor.label
-            picker.contentViewBackgroundColor = UIColor.systemBackground
-            picker.daysBackgroundColor = UIColor.groupTableViewBackground
-            picker.titleBackgroundColor = UIColor.secondarySystemGroupedBackground
-        } else {
-            picker.normalColor = UIColor.white
-            picker.darkColor = UIColor.black
-            picker.contentViewBackgroundColor = UIColor.white
-        }
+//        if #available(iOS 13.0, *) {
+//            picker.normalColor = UIColor.secondarySystemGroupedBackground
+//            picker.darkColor = UIColor.label
+//            picker.contentViewBackgroundColor = UIColor.systemBackground
+//            picker.daysBackgroundColor = UIColor.groupTableViewBackground
+//            picker.titleBackgroundColor = UIColor.secondarySystemGroupedBackground
+//        } else {
+//            picker.normalColor = UIColor.white
+//            picker.darkColor = UIColor.black
+//            picker.contentViewBackgroundColor = UIColor.white
+//        }
         picker.completionHandler = { date in
             let formatter = DateFormatter()
-            formatter.dateFormat = "hh:mm aa dd/MM/YYYY"
+            formatter.dateFormat = "hh:mm:ss aa dd/MM/YYYY"
             self.title = formatter.string(from: date)
         }
         picker.delegate = self
